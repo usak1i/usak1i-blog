@@ -1,6 +1,5 @@
 /**
  * 個人資料與連結設定 —— 首頁左側的資料卡會讀這裡。
- * 標 TODO 的地方換成你自己的資料。
  */
 
 export type IconName =
@@ -20,7 +19,6 @@ export interface ProfileLink {
 
 export const profile = {
     name: "usak1i",
-    // TODO: 一兩句自我介紹
     bio: "CS student. Interesting in software / game development and security research",
     avatar: "/eous.jpg",
     links: [
@@ -29,6 +27,31 @@ export const profile = {
         { label: "Instagram", href: "https://www.instagram.com/_han._.ch/", icon: "instagram" },
     ] satisfies ProfileLink[],
 };
+
+/**
+ * 文章分類。key 是寫在文章 frontmatter `category:` 的值，也是網址（/blog/category/<key>/）。
+ * 要新增分類就在這裡加一筆；文章填了不存在的分類，build 會直接報錯。
+ * 這裡的順序就是分類列表顯示的順序。
+ */
+export const CATEGORIES = {
+    ctf: {
+        label: "CTF",
+        description: "CTF writeups and challenge notes.",
+    },
+    leetcode: {
+        label: "LeetCode 刷題",
+        description: "LeetCode solutions and notes.",
+    },
+    misc: {
+        label: "Misc",
+        description: "Everything else.",
+    },
+} as const;
+
+export type CategoryId = keyof typeof CATEGORIES;
+
+/** 文章沒寫 category 時歸到這個分類 */
+export const DEFAULT_CATEGORY: CategoryId = "misc";
 
 /** 首頁「最新文章」顯示幾篇 */
 export const HOME_POST_COUNT = 5;

@@ -2,7 +2,7 @@
 title: Hello World
 description: 範例文章，確認版面後可以刪掉。
 published: 2026-11-14
-category: Misc
+category: misc
 tags: [example]
 ---
 

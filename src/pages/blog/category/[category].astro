@@ -1,0 +1,65 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import PostCard from "../../../components/PostCard.astro";
+import CategoryNav from "../../../components/CategoryNav.astro";
+import { getCategoriesWithPosts } from "../../../utils/posts";
+
+// 每個分類都產生一頁，就算還沒有文章
+export async function getStaticPaths() {
+    const categories = await getCategoriesWithPosts();
+    return categories.map((category) => ({
+        params: { category: category.id },
+        props: { category },
+    }));
+}
+
+const { category } = Astro.props;
+---
+
+<Layout title={category.label} description={category.description}>
+    <section class="list">
+        <h1 class="section-title">
+            {category.label} <span>{category.posts.length}</span>
+        </h1>
+        <p class="description">{category.description}</p>
+        <CategoryNav current={category.id} />
+        {
+            category.posts.length > 0 ? (
+                category.posts.map((post) => <PostCard post={post} />)
+            ) : (
+                <p class="card empty">這個分類還沒有文章。</p>
+            )
+        }
+    </section>
+</Layout>
+
+<style>
+    .list {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        max-width: 50rem;
+        margin-inline: auto;
+    }
+
+    .section-title {
+        margin: 0;
+        font-size: 1.5rem;
+    }
+
+    .section-title span {
+        color: var(--text-muted);
+        font-size: 1rem;
+        font-weight: 400;
+    }
+
+    .description {
+        margin: -0.5rem 0 0;
+        color: var(--text-muted);
+    }
+
+    .empty {
+        margin: 0;
+        color: var(--text-muted);
+    }
+</style>

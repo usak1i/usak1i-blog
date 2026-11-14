@@ -1,0 +1,47 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import PostCard from "../../../components/PostCard.astro";
+import { getTagsWithPosts } from "../../../utils/posts";
+
+// 每個出現過的 tag 產生一頁
+export async function getStaticPaths() {
+    const tags = await getTagsWithPosts();
+    return tags.map((tag) => ({ params: { tag: tag.slug }, props: { tag } }));
+}
+
+const { tag } = Astro.props;
+---
+
+<Layout title={`#${tag.label}`} description={`Posts tagged with ${tag.label}.`}>
+    <section class="list">
+        <h1 class="section-title">#{tag.label} <span>{tag.posts.length}</span></h1>
+        {tag.posts.map((post) => <PostCard post={post} />)}
+        <a class="back" href="/blog/">← 所有文章</a>
+    </section>
+</Layout>
+
+<style>
+    .list {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        max-width: 50rem;
+        margin-inline: auto;
+    }
+
+    .section-title {
+        margin: 0;
+        font-size: 1.5rem;
+    }
+
+    .section-title span {
+        color: var(--text-muted);
+        font-size: 1rem;
+        font-weight: 400;
+    }
+
+    .back {
+        align-self: flex-start;
+        font-weight: 500;
+    }
+</style>

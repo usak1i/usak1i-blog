@@ -6,13 +6,15 @@ title: 文章標題
 description: 一句話摘要，會顯示在文章列表和搜尋結果
 published: 2026-11-14
 # updated: 2026-11-20
-category: Writeup
+# 分類：ctf / leetcode / misc（定義在 src/config.ts 的 CATEGORIES；不寫就是 misc）
+category: ctf
 tags: [pwn, heap]
 draft: true
 ---
 
 內文用 Markdown 寫。
 
-圖片放在同一個資料夾，用相對路徑引用，Astro 會自動最佳化：
+圖片放在同一個資料夾，用相對路徑引用，Astro 會自動最佳化。
+注意：引用的圖片檔不存在時整個網站會 build 失敗，所以下面的範例先用註解包起來，放好圖片再打開：
 
-![說明文字](./image.png)
+<!-- ![說明文字](./image.png) -->

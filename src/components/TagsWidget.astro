@@ -1,0 +1,82 @@
+---
+import { getTagsWithPosts } from "../utils/posts";
+
+const tags = await getTagsWithPosts();
+---
+
+{
+    tags.length > 0 && (
+        <section class="card tags-widget">
+            <h2 class="widget-title">Tags</h2>
+            <ul>
+                {tags.map(({ label, href, posts }) => (
+                    <li>
+                        <a href={href}>
+                            {label}
+                            <span class="count">{posts.length}</span>
+                        </a>
+                    </li>
+                ))}
+            </ul>
+        </section>
+    )
+}
+
+<style>
+    .tags-widget {
+        padding: 1.25rem;
+    }
+
+    .widget-title {
+        position: relative;
+        margin: 0 0 0.75rem;
+        padding-left: 0.75rem;
+        font-size: 1.1rem;
+    }
+
+    /* 跟文章卡片一樣的主色短條 */
+    .widget-title::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0.3em;
+        width: 0.25rem;
+        height: 1em;
+        border-radius: 1rem;
+        background: var(--primary);
+    }
+
+    ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    a {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.2rem 0.6rem;
+        border-radius: 0.5rem;
+        background: var(--primary-soft);
+        color: var(--primary);
+        font-size: 0.875rem;
+        transition:
+            background-color 0.15s,
+            color 0.15s;
+    }
+
+    a:hover {
+        background: var(--primary);
+        color: var(--card-bg);
+        text-decoration: none;
+    }
+
+    .count {
+        font-size: 0.75rem;
+        opacity: 0.75;
+    }
+</style>

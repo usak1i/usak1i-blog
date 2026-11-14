@@ -1,6 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import { formatDate } from "../utils/posts";
+import { categoryHref, categoryLabel, formatDate, tagHref } from "../utils/posts";
 
 interface Props {
     post: CollectionEntry<"blog">;
@@ -16,7 +16,9 @@ const href = `/blog/${post.id}/`;
 
     <div class="meta">
         <time datetime={published.toISOString()}>{formatDate(published)}</time>
-        {category && <span class="category">{category}</span>}
+        <a class="category" href={categoryHref(category)}>
+            {categoryLabel(category)}
+        </a>
     </div>
 
     {description && <p class="description">{description}</p>}
@@ -25,7 +27,9 @@ const href = `/blog/${post.id}/`;
         tags.length > 0 && (
             <ul class="tags">
                 {tags.map((tag) => (
-                    <li>#{tag}</li>
+                    <li>
+                        <a href={tagHref(tag)}>#{tag}</a>
+                    </li>
                 ))}
             </ul>
         )
@@ -86,11 +90,20 @@ const href = `/blog/${post.id}/`;
         font-size: 0.875rem;
     }
 
+    /* 疊在「整張卡片可點」的連結上面，才點得到分類 */
     .category {
+        position: relative;
+        z-index: 1;
         padding: 0 0.5rem;
         border-radius: 0.4rem;
         background: var(--primary-soft);
         color: var(--primary);
+    }
+
+    .category:hover {
+        text-decoration: none;
+        background: var(--primary);
+        color: var(--card-bg);
     }
 
     .description {
@@ -107,5 +120,16 @@ const href = `/blog/${post.id}/`;
         padding: 0;
         color: var(--text-muted);
         font-size: 0.875rem;
+    }
+
+    /* tag 連結也要疊在「整張卡片可點」的連結上面 */
+    .tags a {
+        position: relative;
+        z-index: 1;
+        color: var(--text-muted);
+    }
+
+    .tags a:hover {
+        color: var(--primary);
     }
 </style>

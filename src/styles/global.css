@@ -1,6 +1,7 @@
 /*
  * 全站樣式與主題變數。
- * 改 --hue 就能換整個網站的主色（0–360，例如 250 藍紫、160 綠、20 橘紅）。
+ * 淺色模式：改 --hue 換主色（0–360，例如 250 藍紫、160 綠、20 橘紅）。
+ * 深色模式：灰色底 + 棕色主色，由 --dark-hue 控制。
  */
 :root {
     --hue: 250;
@@ -25,26 +26,32 @@
 
 /* 深色：由 Layout 的 inline script 設定 data-theme；沒有 JS 時跟隨系統設定 */
 :root[data-theme="dark"] {
-    --primary: oklch(0.75 0.14 var(--hue));
-    --primary-soft: oklch(0.75 0.14 var(--hue) / 0.15);
-    --page-bg: oklch(0.16 0.015 var(--hue));
-    --card-bg: oklch(0.22 0.015 var(--hue));
-    --text: oklch(0.92 0.01 var(--hue));
-    --text-muted: oklch(0.68 0.015 var(--hue));
-    --border: oklch(0.3 0.015 var(--hue));
+    /* 灰色底 + 棕色主色；--dark-hue 調棕色的色相（50 偏紅棕、70 偏黃棕） */
+    --dark-hue: 60;
+    --primary: oklch(0.74 0.08 var(--dark-hue));
+    --primary-soft: oklch(0.74 0.08 var(--dark-hue) / 0.15);
+    --page-bg: oklch(0.19 0.004 var(--dark-hue));
+    --card-bg: oklch(0.245 0.005 var(--dark-hue));
+    --code-bg: oklch(0.205 0.004 var(--dark-hue));
+    --text: oklch(0.9 0.008 var(--dark-hue));
+    --text-muted: oklch(0.68 0.01 var(--dark-hue));
+    --border: oklch(0.33 0.006 var(--dark-hue));
 
     color-scheme: dark;
 }
 
 @media (prefers-color-scheme: dark) {
     :root:not([data-theme]) {
-        --primary: oklch(0.75 0.14 var(--hue));
-        --primary-soft: oklch(0.75 0.14 var(--hue) / 0.15);
-        --page-bg: oklch(0.16 0.015 var(--hue));
-        --card-bg: oklch(0.22 0.015 var(--hue));
-        --text: oklch(0.92 0.01 var(--hue));
-        --text-muted: oklch(0.68 0.015 var(--hue));
-        --border: oklch(0.3 0.015 var(--hue));
+        /* 灰色底 + 棕色主色；--dark-hue 調棕色的色相（50 偏紅棕、70 偏黃棕） */
+        --dark-hue: 60;
+        --primary: oklch(0.74 0.08 var(--dark-hue));
+        --primary-soft: oklch(0.74 0.08 var(--dark-hue) / 0.15);
+        --page-bg: oklch(0.19 0.004 var(--dark-hue));
+        --card-bg: oklch(0.245 0.005 var(--dark-hue));
+        --code-bg: oklch(0.205 0.004 var(--dark-hue));
+        --text: oklch(0.9 0.008 var(--dark-hue));
+        --text-muted: oklch(0.68 0.01 var(--dark-hue));
+        --border: oklch(0.33 0.006 var(--dark-hue));
 
         color-scheme: dark;
     }
@@ -170,9 +177,13 @@ img {
     border-radius: 0.75rem;
 }
 
-/* 程式碼區塊跟著深色 / 淺色主題切換（搭配 astro.config.mjs 的 shikiConfig） */
+/* 程式碼區塊跟著深色 / 淺色主題切換（搭配 astro.config.mjs 的 shikiConfig）；
+   深色時底色改用灰色的 --code-bg，不用 github-dark 偏藍的底 */
+:root[data-theme="dark"] .astro-code {
+    background-color: var(--code-bg) !important;
+}
+
 :root[data-theme="dark"] .astro-code,
 :root[data-theme="dark"] .astro-code span {
     color: var(--shiki-dark) !important;
-    background-color: var(--shiki-dark-bg) !important;
 }

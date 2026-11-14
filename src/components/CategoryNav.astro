@@ -1,0 +1,82 @@
+---
+import { getCategoriesWithPosts, getSortedPosts } from "../utils/posts";
+import type { CategoryId } from "../config";
+
+interface Props {
+    /** 目前所在的分類；在「所有文章」頁不用給 */
+    current?: CategoryId;
+}
+
+const { current } = Astro.props;
+const total = (await getSortedPosts()).length;
+const categories = await getCategoriesWithPosts();
+
+const items = [
+    { href: "/blog/", label: "全部", count: total, active: !current },
+    ...categories.map((c) => ({
+        href: c.href,
+        label: c.label,
+        count: c.posts.length,
+        active: c.id === current,
+    })),
+];
+---
+
+<nav class="category-nav" aria-label="文章分類">
+    <ul>
+        {
+            items.map(({ href, label, count, active }) => (
+                <li>
+                    <a
+                        href={href}
+                        class:list={{ active }}
+                        aria-current={active ? "page" : undefined}
+                    >
+                        {label}
+                        <span class="count">{count}</span>
+                    </a>
+                </li>
+            ))
+        }
+    </ul>
+</nav>
+
+<style>
+    ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    a {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.3rem 0.8rem;
+        border-radius: 0.6rem;
+        background: var(--card-bg);
+        color: var(--text);
+        font-size: 0.95rem;
+        font-weight: 500;
+        transition: background-color 0.15s;
+    }
+
+    a:hover {
+        background: var(--primary-soft);
+        color: var(--primary);
+        text-decoration: none;
+    }
+
+    a.active {
+        background: var(--primary);
+        color: var(--card-bg);
+    }
+
+    .count {
+        font-size: 0.8rem;
+        opacity: 0.7;
+    }
+</style>

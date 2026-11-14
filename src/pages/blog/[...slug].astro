@@ -1,7 +1,13 @@
 ---
 import { render } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
-import { formatDate, getSortedPosts } from "../../utils/posts";
+import {
+    categoryHref,
+    categoryLabel,
+    formatDate,
+    getSortedPosts,
+    tagHref,
+} from "../../utils/posts";
 
 export async function getStaticPaths() {
     const posts = await getSortedPosts();
@@ -26,13 +32,17 @@ const { Content } = await render(post);
                         </span>
                     )
                 }
-                {category && <span class="category">{category}</span>}
+                <a class="category" href={categoryHref(category)}>
+                    {categoryLabel(category)}
+                </a>
             </div>
             {
                 tags.length > 0 && (
                     <ul class="tags">
                         {tags.map((tag) => (
-                            <li>#{tag}</li>
+                            <li>
+                                <a href={tagHref(tag)}>#{tag}</a>
+                            </li>
                         ))}
                     </ul>
                 )
