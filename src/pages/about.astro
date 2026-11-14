@@ -1,12 +1,9 @@
-<html>
-    <head>
-        <title>about</title>
-    </head>
-    <body>
-        <a href="/">Home</a>
-        <a href="/about/">About</a>
-        <a href="/blog/">Blog</a>
+---
+import Layout from "../layouts/Layout.astro";
+---
 
+<Layout title="About" description="About usak1i and this website.">
+    <article class="card">
         <h1>About Me</h1>
         <h2>... and this website :)</h2>
 
@@ -16,5 +13,5 @@
             This website will post my CTF experience, writeups and cybersecurity
             researches
         </p>
-    </body>
-</html>
+    </article>
+</Layout>
