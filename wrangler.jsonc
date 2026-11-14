@@ -1,0 +1,13 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "usak1i-blog",
+  "compatibility_date": "2026-11-01",
+  // 純靜態網站：不需要 Worker 腳本，只上傳 Astro build 出來的 dist/
+  "assets": {
+    "directory": "./dist",
+    // /about 會轉到 /about/，對應 dist/about/index.html
+    "html_handling": "auto-trailing-slash",
+    // 找不到頁面時回傳 dist/404.html（有的話）
+    "not_found_handling": "404-page"
+  }
+}
