@@ -4,7 +4,8 @@
 # 也可以用資料夾：src/content/blog/ctf-2026/pwn-1.md → /blog/ctf-2026/pwn-1/
 title: 文章標題
 description: 一句話摘要，會顯示在文章列表和搜尋結果
-published: 2026-11-14
+# 發布時間：可以只寫日期，或寫到時間（+08:00 是台灣時區）；同一天有多篇時用時間決定先後
+published: 2026-11-14T21:30:00+08:00
 # updated: 2026-11-20
 # 分類：ctf / leetcode / misc（定義在 src/config.ts 的 CATEGORIES；不寫就是 misc）
 category: ctf

@@ -1,21 +1,31 @@
 import { getCollection } from "astro:content";
 import { CATEGORIES, type CategoryId } from "../config";
 
-/** 取得所有文章（正式 build 時排除草稿），依發布日期由新到舊排序 */
+/**
+ * 取得所有文章（正式 build 時排除草稿），依發布時間由新到舊排序。
+ * published 只寫日期的話同一天的文章時間相同，這時再依標題排，讓順序固定；
+ * 想控制同一天的先後，就在 published 加上時間（見 _template.md）。
+ */
 export async function getSortedPosts() {
     const posts = await getCollection("blog", ({ data }) =>
         import.meta.env.PROD ? !data.draft : true,
     );
     return posts.sort(
-        (a, b) => b.data.published.valueOf() - a.data.published.valueOf(),
+        (a, b) =>
+            b.data.published.valueOf() - a.data.published.valueOf() ||
+            a.data.title.localeCompare(b.data.title, "en", { numeric: true }),
     );
 }
+
+/** 網站以台灣時間顯示日期（Cloudflare 的 build 機器是 UTC，不指定的話跨日附近會差一天） */
+const TIME_ZONE = "Asia/Taipei";
 
 export function formatDate(date: Date) {
     return date.toLocaleDateString("zh-TW", {
         year: "numeric",
         month: "2-digit",
         day: "2-digit",
+        timeZone: TIME_ZONE,
     });
 }
 
