@@ -107,3 +107,72 @@ img {
     margin-inline: auto;
     padding-inline: 1rem;
 }
+
+/* 文章內文（Markdown 轉出來的 HTML） */
+.prose > :first-child {
+    margin-top: 0;
+}
+
+.prose h2,
+.prose h3,
+.prose h4 {
+    margin: 2rem 0 0.75rem;
+    line-height: 1.4;
+}
+
+.prose a {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+}
+
+.prose :not(pre) > code {
+    padding: 0.15em 0.4em;
+    border-radius: 0.4rem;
+    background: var(--primary-soft);
+    color: var(--primary);
+    font-size: 0.9em;
+}
+
+.prose pre {
+    padding: 1rem;
+    border-radius: 0.75rem;
+    overflow-x: auto;
+    font-size: 0.875rem;
+    line-height: 1.6;
+}
+
+.prose blockquote {
+    margin: 1rem 0;
+    padding: 0.25rem 1rem;
+    border-left: 0.25rem solid var(--primary);
+    background: var(--primary-soft);
+    border-radius: 0 0.5rem 0.5rem 0;
+}
+
+.prose blockquote p {
+    margin: 0.5rem 0;
+}
+
+.prose table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    border-collapse: collapse;
+}
+
+.prose th,
+.prose td {
+    padding: 0.4rem 0.8rem;
+    border: 1px solid var(--border);
+}
+
+.prose img {
+    border-radius: 0.75rem;
+}
+
+/* 程式碼區塊跟著深色 / 淺色主題切換（搭配 astro.config.mjs 的 shikiConfig） */
+:root[data-theme="dark"] .astro-code,
+:root[data-theme="dark"] .astro-code span {
+    color: var(--shiki-dark) !important;
+    background-color: var(--shiki-dark-bg) !important;
+}

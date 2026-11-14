@@ -1,0 +1,114 @@
+---
+import Icon from "./Icon.astro";
+import { profile } from "../config";
+---
+
+<aside class="card profile">
+    {
+        profile.avatar ? (
+            <img
+                class="avatar"
+                src={profile.avatar}
+                alt={profile.name}
+                width="160"
+                height="160"
+            />
+        ) : (
+            <div class="avatar placeholder" aria-hidden="true">
+                {profile.name.charAt(0).toUpperCase()}
+            </div>
+        )
+    }
+
+    <h2 class="name">{profile.name}</h2>
+    <div class="divider"></div>
+    <p class="bio">{profile.bio}</p>
+
+    <ul class="links">
+        {
+            profile.links.map(({ label, href, icon }) => (
+                <li>
+                    <a
+                        href={href}
+                        aria-label={label}
+                        title={label}
+                        target={href.startsWith("http") ? "_blank" : undefined}
+                        rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
+                    >
+                        <Icon name={icon} />
+                    </a>
+                </li>
+            ))
+        }
+    </ul>
+</aside>
+
+<style>
+    .profile {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .avatar {
+        width: 100%;
+        max-width: 10rem;
+        aspect-ratio: 1;
+        border-radius: 0.75rem;
+        object-fit: cover;
+    }
+
+    .placeholder {
+        display: grid;
+        place-items: center;
+        background: var(--primary-soft);
+        color: var(--primary);
+        font-size: 3.5rem;
+        font-weight: 700;
+    }
+
+    .name {
+        margin: 1rem 0 0;
+        font-size: 1.35rem;
+    }
+
+    .divider {
+        width: 1.5rem;
+        height: 0.25rem;
+        margin: 0.5rem 0;
+        border-radius: 1rem;
+        background: var(--primary);
+    }
+
+    .bio {
+        margin: 0;
+        color: var(--text-muted);
+        font-size: 0.95rem;
+    }
+
+    .links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.5rem;
+        list-style: none;
+        margin: 1rem 0 0;
+        padding: 0;
+    }
+
+    .links a {
+        display: grid;
+        place-items: center;
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 0.6rem;
+        background: var(--primary-soft);
+        color: var(--primary);
+        transition: transform 0.15s;
+    }
+
+    .links a:hover {
+        transform: translateY(-2px);
+    }
+</style>

@@ -1,0 +1,111 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { formatDate } from "../utils/posts";
+
+interface Props {
+    post: CollectionEntry<"blog">;
+}
+
+const { post } = Astro.props;
+const { title, description, published, category, tags } = post.data;
+const href = `/blog/${post.id}/`;
+---
+
+<article class="card post-card">
+    <h3 class="title"><a href={href}>{title}</a></h3>
+
+    <div class="meta">
+        <time datetime={published.toISOString()}>{formatDate(published)}</time>
+        {category && <span class="category">{category}</span>}
+    </div>
+
+    {description && <p class="description">{description}</p>}
+
+    {
+        tags.length > 0 && (
+            <ul class="tags">
+                {tags.map((tag) => (
+                    <li>#{tag}</li>
+                ))}
+            </ul>
+        )
+    }
+</article>
+
+<style>
+    .post-card {
+        position: relative;
+        padding-left: 2rem;
+    }
+
+    /* 左側的主色短條 */
+    .post-card::before {
+        content: "";
+        position: absolute;
+        left: 1rem;
+        top: 1.85rem;
+        width: 0.25rem;
+        height: 1.25rem;
+        border-radius: 1rem;
+        background: var(--primary);
+    }
+
+    .title {
+        margin: 0;
+        font-size: 1.35rem;
+        line-height: 1.4;
+    }
+
+    .title a {
+        color: var(--text);
+    }
+
+    .title a:hover {
+        color: var(--primary);
+        text-decoration: none;
+    }
+
+    /* 整張卡片都可以點 */
+    .title a::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: var(--radius);
+    }
+
+    .post-card:has(a:focus-visible) {
+        outline: 2px solid var(--primary);
+    }
+
+    .meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin-top: 0.5rem;
+        color: var(--text-muted);
+        font-size: 0.875rem;
+    }
+
+    .category {
+        padding: 0 0.5rem;
+        border-radius: 0.4rem;
+        background: var(--primary-soft);
+        color: var(--primary);
+    }
+
+    .description {
+        margin: 0.75rem 0 0;
+        color: var(--text-muted);
+    }
+
+    .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        list-style: none;
+        margin: 0.75rem 0 0;
+        padding: 0;
+        color: var(--text-muted);
+        font-size: 0.875rem;
+    }
+</style>
