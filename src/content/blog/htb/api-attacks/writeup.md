@@ -4,7 +4,7 @@ description: A walkthrough of the skill assessment of api attacks module
 published: 2026-11-15T15:44:00+08:00
 category: htb
 tags: [web]
-draft: true
+draft: false
 ---
 
 ## Scenario
