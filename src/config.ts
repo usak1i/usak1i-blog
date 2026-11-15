@@ -34,6 +34,10 @@ export const profile = {
  * 這裡的順序就是分類列表顯示的順序。
  */
 export const CATEGORIES = {
+    htb: {
+        label: "HTB",
+        description: "HTB module or machine writeups",
+    },
     ctf: {
         label: "CTF",
         description: "CTF writeups and challenge notes.",
