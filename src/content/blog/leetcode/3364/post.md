@@ -112,5 +112,6 @@ public:
 - Time Complexity : `O(n^2)`
 - Space Complexity : `O(1)`
 
-AC
+- AC
+
 ![Accepted](./ac.png)
